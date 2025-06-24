@@ -1,19 +1,19 @@
 'use client'
 import { useEffect, useState } from "react";
-import { Users, CalendarCheck } from "lucide-react";
+// import { Users, CalendarCheck } from "lucide-react";
 // import Image from "next/image";
-import Link from "next/link";
+// import Link from "next/link";
 import endpointroute from "@/app/utils/endpointroute";
 const Page= () => {
   const [reports, SetReports] = useState([]);
-  const [loading,setLoading]=useState(true)
+//   const [loading,setLoading]=useState(true)
 
 console.log('booking',reports)
   useEffect(() => {
     const fetchAllBookings = async () => {
 
       try {
-      setLoading(true)
+    //   setLoading(true)
 
       const [reportsRes]=await Promise.all(
         [
@@ -24,10 +24,11 @@ console.log('booking',reports)
         SetReports(reportsRes.data) 
       } catch (error) {
         console.log("Error fetching bookings:", error);
-        setLoading(false)
+        // setLoading(false)
       }
       finally{
-        setLoading(false)
+        // setLoading(false)
+        console.log('hello')
       }
     };
 
@@ -36,7 +37,7 @@ console.log('booking',reports)
    
   }, []);
 // http://localhost:5001/api/reports/user/68547d5e51ccbcea25e8e041
-  const [searchTerm,setSearchTerm]=useState('')
+//   const [searchTerm,setSearchTerm]=useState('')
  
   
 
