@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { ToastContainer,toast } from "react-toastify"
+import { ToastContainer } from "react-toastify"
 import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 const FiEye = ({ size }) => <span style={{ fontSize: size }}>👁️</span>;

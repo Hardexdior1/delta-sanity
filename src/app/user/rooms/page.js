@@ -6,7 +6,6 @@ import Image from "next/image";
 import endpointroute from '../../utils/endpointroute';
 import EditRoomModal from "./components/Modal"; 
 // import ConfirmDeleteModal from "./components/DeleteModal"; 
-import { ToastContainer,toast } from "react-toastify";
 export default function RoomsList() {
   const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -59,7 +58,6 @@ const [id,setId]=useState()
   return (
     <main className="">
       <h3 className="text-xl font-semibold text-blue-600 mb-4">All Reports</h3>
-<ToastContainer />
       {loading ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
          
    { Array(3).fill(0).map((_, index) => (

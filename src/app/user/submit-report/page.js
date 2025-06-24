@@ -231,7 +231,7 @@ export default function CreateReport() {
       <h1 className="text-2xl font-bold mb-4 text-blue-600">Submit a Report</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {['ago', 'pms', 'dpk', 'crudeOil'].map((key, index) => (
+          {['ago', 'pms', 'dpk', 'crudeOil'].map((key) => (
             <div key={key}>
               <label className="block mb-1 font-medium">{key.toUpperCase()}</label>
               <div className="flex items-center">

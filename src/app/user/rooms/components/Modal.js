@@ -1,9 +1,7 @@
 // EditHotelModal.js
 import { useState } from "react";
 import { MdClose, MdDelete } from "react-icons/md";
-import endpointroute from "@/app/utils/endpointroute";
 import Image from "next/image";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const EditHotelModal = ({ room, onClose }) => {
@@ -35,7 +33,6 @@ const EditHotelModal = ({ room, onClose }) => {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50">
-      <ToastContainer />
       <div className="bg-white max-h-[90vh] overflow-y-auto p-6 rounded-lg w-11/12 xl:w-3/5 shadow-xl relative">
         <div className="flex justify-between items-center mb-4">
           <button onClick={onClose}>
