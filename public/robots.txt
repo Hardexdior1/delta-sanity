@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://verseonehotel.netlify.app
+
+# Sitemaps
+Sitemap: https://verseonehotel.netlify.app/sitemap.xml
