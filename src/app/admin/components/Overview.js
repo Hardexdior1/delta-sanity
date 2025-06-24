@@ -8,8 +8,6 @@ const Overview = () => {
   const [reports, SetReports] = useState([]);
   const [loading,setLoading]=useState(true)
   const [users, setUsers] = useState([]);
-console.log(users)
-console.log('booking',reports)
   useEffect(() => {
     const fetchAllBookings = async () => {
 
@@ -39,7 +37,7 @@ console.log('booking',reports)
    
   }, []);
 // http://localhost:5001/api/reports/user/68547d5e51ccbcea25e8e041
-  const [searchTerm,setSearchTerm]=useState('')
+  const [searchTerm]=useState('')
  
   
 const overviewStats = [
