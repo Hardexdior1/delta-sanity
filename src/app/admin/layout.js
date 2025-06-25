@@ -106,7 +106,7 @@ const {user,  handleLogout,loadingLogOut,showLogOut,setShowLogout}=useAuth()
               href={route.path}
               className={`
                 flex items-center p-3 rounded-lg transition-colors
-                ${pathname === route.path ? 'bg-emerald-600' : 'hover:bg-white/10'}
+                ${pathname === route.path ? 'bg-blue-600' : 'hover:bg-white/10'}
                 ${isCollapsed ? 'justify-center' : ''}
               `}
             >

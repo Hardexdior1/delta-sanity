@@ -37,7 +37,7 @@ console.log(token)
     console.log('trying to change pasword to',token, password)
     try {
       setLoading(true);
-      const res = await axios.post(`https://verse-one-backend.onrender.com/api/auth/reset-password`, {
+      const res = await axios.post(`https://report-backend-xe01.onrender.com/api/auth/reset-password`, {
   password,
   token
 },{

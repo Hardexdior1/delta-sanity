@@ -4,7 +4,7 @@ import { useAuth } from "@/app/context/AuthContext";
 import endpointroute from "@/app/utils/endpointroute";
 import { toast, ToastContainer } from "react-toastify";
 
-export default function UserProfile() {
+export default function AdminProfile() {
   const { user, handleLogout ,setUser} = useAuth();
 const [loadinProfile,setLoadingProfile]=useState(false)
 const [loadingPassword,setLoadingPassWord]=useState(false)
@@ -53,9 +53,8 @@ setProfileData({...profileData,
 window.location.reload();
 
       } catch (error) {
-        toast.error(error.response?.data?.message||"Failed to update profile.");
+        toast.error(error?.response?.data?.message||"Failed to update profile.");
         setLoadingProfile(false)
-        console.log(error)
       }
     } else {
       toast.error("Please fill in all fields.");
@@ -67,7 +66,7 @@ window.location.reload();
     if (passwordData.oldPassword && passwordData.newPassword) {
       try {
         setLoadingPassWord(true)
-        await endpointroute.post("auth/change-password",{
+      let res=  await endpointroute.post("auth/change-password",{
          oldPassword:passwordData.oldPassword,
          newPassword:passwordData.newPassword
       },
@@ -82,8 +81,8 @@ window.location.reload();
         setPasswordData({ oldPassword: "", newPassword: "" });
                 await handleLogout();
 
-       
         // router.push("/auth")
+        ChartNoAxesColumnDecreasing.log(res)
       } catch (error) {
         toast.error(error.response.data.message|| "Failed to update password.");
         setLoadingPassWord(false)
@@ -140,7 +139,7 @@ const [showNewPassword, setShowNewPassword] = useState(false);
             />
           </div>
 
-          <div>
+          {/* <div>
             <label className="block mb-1 text-sm font-medium text-gray-700">
               Last Name
             </label>
@@ -149,16 +148,20 @@ const [showNewPassword, setShowNewPassword] = useState(false);
               name="lastName"
               value={profileData.lastName}
               onChange={handleProfileChange}
-                            className="w-full px-4 py-2 rounded-md border border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full px-4 py-2 rounded-md border border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
-          </div>
+          </div> */}
 
-          <button
-            type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md"
-          >
-           {loadinProfile?"saving..":" Save Changes"}
-          </button>
+        <button
+  type="submit"
+  disabled={loadinProfile}
+  className={`w-full py-2 rounded-md text-white transition duration-200
+    ${loadinProfile ? "bg-blue-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"}
+  `}
+>
+  {loadinProfile ? "Saving..." : "Save Changes"}
+</button>
+
         </form>
       )}
 
@@ -174,7 +177,7 @@ const [showNewPassword, setShowNewPassword] = useState(false);
     value={passwordData.oldPassword}
     placeholder="old-password"
     onChange={handlePasswordChange}
-                  className="w-full px-4 py-2 rounded-md border border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
+    className="w-full px-4 py-2 rounded-md border border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
   />
   <button
     type="button"
@@ -193,7 +196,7 @@ const [showNewPassword, setShowNewPassword] = useState(false);
     value={passwordData.newPassword}
     onChange={handlePasswordChange}
     placeholder="new-password"
-                  className="w-full px-4 py-2 rounded-md border border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
+    className="w-full px-4 py-2 rounded-md border border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
   />
   <button
     type="button"
@@ -205,12 +208,15 @@ const [showNewPassword, setShowNewPassword] = useState(false);
 </div>
 
 
-          <button
-            type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-800 text-white py-2 rounded-md"
-          >
-            {loadingPassword?"Changing...":"Change Password"}
-          </button>
+         <button
+  type="submit"
+  disabled={loadingPassword}
+  className={`w-full py-2 rounded-md text-white transition duration-200
+    ${loadingPassword ? "bg-blue-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"}
+  `}
+>
+  {loadingPassword ? "Changing..." : "Change Password"}
+</button>
         </form>
       )}
     </div>

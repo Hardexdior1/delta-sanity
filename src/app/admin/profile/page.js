@@ -103,7 +103,7 @@ const [showNewPassword, setShowNewPassword] = useState(false);
           onClick={() => setTab("profile")}
           className={`px-4 py-2 rounded-md font-medium ${
             tab === "profile"
-              ? "bg-emerald-600 text-white"
+              ? "bg-blue-600 text-white"
               : "bg-gray-100 text-black"
           }`}
         >
@@ -113,7 +113,7 @@ const [showNewPassword, setShowNewPassword] = useState(false);
           onClick={() => setTab("password")}
           className={`px-4 py-2 rounded-md font-medium ${
             tab === "password"
-              ? "bg-emerald-600 text-white"
+              ? "bg-blue-600 text-white"
               : "bg-gray-100 text-black"
           }`}
         >
@@ -135,11 +135,11 @@ const [showNewPassword, setShowNewPassword] = useState(false);
               name="firstName"
               value={profileData.firstName}
               onChange={handleProfileChange}
-              className="w-full px-4 py-2 rounded-md border border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+              className="w-full px-4 py-2 rounded-md border border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
           </div>
 
-          <div>
+          {/* <div>
             <label className="block mb-1 text-sm font-medium text-gray-700">
               Last Name
             </label>
@@ -148,15 +148,15 @@ const [showNewPassword, setShowNewPassword] = useState(false);
               name="lastName"
               value={profileData.lastName}
               onChange={handleProfileChange}
-              className="w-full px-4 py-2 rounded-md border border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+              className="w-full px-4 py-2 rounded-md border border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
-          </div>
+          </div> */}
 
         <button
   type="submit"
   disabled={loadinProfile}
   className={`w-full py-2 rounded-md text-white transition duration-200
-    ${loadinProfile ? "bg-emerald-400 cursor-not-allowed" : "bg-emerald-600 hover:bg-emerald-700"}
+    ${loadinProfile ? "bg-blue-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"}
   `}
 >
   {loadinProfile ? "Saving..." : "Save Changes"}
@@ -177,7 +177,7 @@ const [showNewPassword, setShowNewPassword] = useState(false);
     value={passwordData.oldPassword}
     placeholder="old-password"
     onChange={handlePasswordChange}
-    className="w-full px-4 py-2 rounded-md border border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+    className="w-full px-4 py-2 rounded-md border border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
   />
   <button
     type="button"
@@ -196,7 +196,7 @@ const [showNewPassword, setShowNewPassword] = useState(false);
     value={passwordData.newPassword}
     onChange={handlePasswordChange}
     placeholder="new-password"
-    className="w-full px-4 py-2 rounded-md border border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+    className="w-full px-4 py-2 rounded-md border border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
   />
   <button
     type="button"
@@ -212,7 +212,7 @@ const [showNewPassword, setShowNewPassword] = useState(false);
   type="submit"
   disabled={loadingPassword}
   className={`w-full py-2 rounded-md text-white transition duration-200
-    ${loadingPassword ? "bg-emerald-400 cursor-not-allowed" : "bg-emerald-600 hover:bg-emerald-700"}
+    ${loadingPassword ? "bg-blue-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"}
   `}
 >
   {loadingPassword ? "Changing..." : "Change Password"}

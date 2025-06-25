@@ -16,7 +16,7 @@ const Page = () => {
   const [showModal, setShowModal] = useState(false);
   const [view, setView] = useState(null);
   const [expandedImg, setExpandedImg] = useState(null);
-
+console.log(reports)
   useEffect(() => {
     const fetchReport = async () => {
       try {
@@ -34,21 +34,41 @@ const Page = () => {
         setLoading(false);
       }
     };
-
     fetchReport();
   }, [splittedRoute]);
 
   const handlePrint = () => window.print();
+  const itemsPerPage=6
+    const [search, setSearch] = useState("");
+  const filteredReports = reports.filter((report) =>
+    report.place?.toLowerCase().includes(search.trim().toLowerCase())
+  );
+
+      const [currentPage,setCurrentPage]=useState(1)
+    
+      const startIndex=(currentPage-1)*itemsPerPage
+    
+      const lastIndex=startIndex+itemsPerPage
+    
+    const paginatedReports=filteredReports.slice(startIndex,lastIndex)
+    
+      const total=Math.min(lastIndex, paginatedReports.length)
 
   return (
     <main className="p-4">
-      <h1 className="text-xl font-bold text-black mb-4"> All Reports From {name } Zone </h1>
-
+      <h1 className="text-xl font-bold text-black mb-4"> All Reports From {name } </h1>
+<input
+        type="text"
+        placeholder="Search by place..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        className="w-full max-w-md px-4 py-2 mb-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300"
+      />
       {loading ? (
         <div className="flex justify-center items-center h-40">
           <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
         </div>
-      ) : notFound ? (
+      ) : notFound ||filteredReports.length === 0? (
         <div className="text-center py-10">
           <h2 className="text-xl sm:text-2xl font-semibold text-gray-700">
             No report found for this user.
@@ -57,8 +77,8 @@ const Page = () => {
             Please check again later or select a different zone.
           </p>
         </div>
-      ) : reports ? (
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      ) :   
+        <div className={`grid gap-4 md:grid-cols-2 lg:${reports.length>2?`grid-cols-3`:`grid-cols-2`}`}>
           {reports.map((report, index) => (
        <div
   key={index}
@@ -103,22 +123,15 @@ const Page = () => {
 
           ))}
         </div>
-      ) : null}
+        }
 
       {showModal && view && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50">
           <div className="bg-white max-h-[90vh] overflow-y-auto p-6 rounded-lg w-11/12 xl:w-3/5 shadow-xl relative print-area">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-blue-600 font-bold text-lg">
-                Submitted on {new Date(view.createdAt).toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                  hour: "numeric",
-                  minute: "numeric",
-                  hour12: true,
-                })}
-              </h2>
+            <div className="flex justify-between items-center ">
+              <h4 className="text-blue-600 font-bold text-lg">
+                Submitted by {name}
+              </h4>
               <div className="flex gap-4">
                 <button
                   onClick={handlePrint}
@@ -131,6 +144,17 @@ const Page = () => {
                 </button>
               </div>
             </div>
+
+            <h4 className="text-black mb-2 font-semibold text-lg">
+                Date: {new Date(view.createdAt).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                  hour: "numeric",
+                  minute: "numeric",
+                  hour12: true,
+                })}
+              </h4>
 
             <form>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
@@ -159,7 +183,7 @@ const Page = () => {
                 <div className="md:col-span-2">
                   <label className="block font-medium mb-1">Remark</label>
                    <textarea
-                   rows={4}
+                   rows={6}
                       type="text"
                       value={view.remark}
                       disabled
@@ -168,8 +192,8 @@ const Page = () => {
                  
                 </div>
 
-                <div className="md:col-span-2">
-                  <label className="block font-medium mb-2">Images</label>
+                <div className="md:col-span-2 img-zone">
+                  <label className="block font-medium mb-2 ">Images</label>
                   {view.images && view.images.length > 0 ? (
                     <div className="flex gap-4 flex-wrap">
                       {view.images.map((img) => (
@@ -194,7 +218,7 @@ const Page = () => {
             </form>
 
             {expandedImg && (
-              <div className="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center z-50">
+              <div className="fixed img-zone inset-0 bg-black bg-opacity-75 flex justify-center items-center z-50">
                 <div className="relative">
                   <button
                     onClick={() => setExpandedImg(null)}
@@ -213,6 +237,44 @@ const Page = () => {
           </div>
         </div>
       )}
+
+
+
+      <div className="flex flex-col items-center justify-center gap-5 mb-5 py-5 md:flex-row">
+  <button
+    onClick={() => {
+      setCurrentPage(currentPage - 1);
+    }}
+    disabled={currentPage === 1}
+    className={`px-4 py-2 rounded-md font-medium transition-colors duration-200 ${
+      currentPage === 1
+        ? 'bg-white text-gray-400 border border-gray-300 cursor-not-allowed'
+        : 'bg-white text-[#207dff] border border-emerald-600 hover:bg-emerald-600 hover:text-white'
+    }`}
+  >
+    Prev
+  </button>
+
+  <h2 className="text-lg font-semibold text-gray-700">
+        {`Showing ${total} of ${reports.length} Reports`}
+
+
+  </h2>
+  <button
+    onClick={() => {
+      setCurrentPage(currentPage + 1);
+    }}
+    disabled={total === reports.length}
+    className={`px-4 py-2 rounded-md font-medium transition-colors duration-200 ${
+      total === reports.length
+        ? 'bg-white text-gray-400 border border-gray-300 cursor-not-allowed'
+        : 'bg-white text-emerald-600 border border-emerald-600 hover:bg-emerald-600 hover:text-white'
+    }`}
+  >
+    Next
+  </button>
+  
+</div>
     </main>
   );
 };
