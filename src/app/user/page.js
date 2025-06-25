@@ -57,7 +57,7 @@ console.log(bookings)
 
   const userRoutes = [
     {
-      path: "/submit-report",
+      path: "user/submit-report",
       label: "Submit Report",
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

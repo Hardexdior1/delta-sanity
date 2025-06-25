@@ -7,7 +7,7 @@ import axios from 'axios';
 import { Eye, EyeOff } from 'lucide-react';
 
 export default function ResetPassword() {
-  const [password, setPassword] = useState('');
+  const [newPassword, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [show, setShow] = useState(false);
@@ -27,19 +27,19 @@ console.log(token)
   const handleReset = async (e) => {
     e.preventDefault();
 
-    if (password.length < 6) {
+    if (newPassword.length < 6) {
       return toast.error('Password must be at least 6 characters');
     }
 
-    if (password !== confirmPassword) {
+    if (newPassword !== confirmPassword) {
       return toast.error('Passwords do not match');
     }
-    console.log('trying to change pasword to',token, password)
+    console.log('trying to change pasword to',token,newPassword)
     try {
       setLoading(true);
-      const res = await axios.post(`https://report-backend-xe01.onrender.com/api/auth/reset-password`, {
-  password,
-  token
+      const res = await axios.post(`https://report-backend-xe01.onrender.com/api/auth/reset-password/${token}`, {
+  newPassword
+
 },{
     headers: {
       'Content-Type': 'application/json',
@@ -68,8 +68,8 @@ console.log(token)
           </label>
           <input
             type={show ? 'text' : 'password'}
-            className="mt-1 w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
-            value={password}
+            className="mt-1 w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={newPassword}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
@@ -89,7 +89,7 @@ console.log(token)
           </label>
           <input
             type={showConfirm ? 'text' : 'password'}
-            className="mt-1 w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            className="mt-1 w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
@@ -107,7 +107,7 @@ console.log(token)
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-3 px-4 rounded-lg font-medium text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-600 transition disabled:opacity-50"
+          className="w-full py-3 px-4 rounded-lg font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 transition disabled:opacity-50"
         >
           {loading ? 'Resetting...' : 'Reset Password'}
         </button>

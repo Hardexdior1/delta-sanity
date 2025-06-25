@@ -1,9 +1,6 @@
 
 'use client'
-// const email="10georgestan10@gmail.com"
-// const password1="newjohn"
-//  const [email] = useState('admin@gmail.com');
-    // const [password] = useState('admin');
+
 import { createContext,useState,useContext ,useEffect} from "react";
 import endpointroute from "../utils/endpointroute";
 import "react-toastify/dist/ReactToastify.css";

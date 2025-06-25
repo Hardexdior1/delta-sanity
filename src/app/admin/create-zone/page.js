@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -37,12 +38,7 @@ console.log(res)
       setLoading(false);
     }
   };
-// [09:40, 6/23/2025] Zoromania: http://localhost:5001/api/user/admin-edit/68590d41232e793269c003ae
-// [09:42, 6/23/2025] Zoromania: {
-//   "newEmail": "yfagbanidiocese@gmail.com"
-// }
-// Admin reset user password from admin dashboard
-http://localhost:5001/api/reports/user/68547d5e51ccbcea25e8e041
+
   return (
     <section className="bg-white border border-gray-300 rounded-lg p-6 max-w-md mx-auto mt-6">
       <h2 className="text-lg font-semibold text-black mb-4">Create a Zone</h2>

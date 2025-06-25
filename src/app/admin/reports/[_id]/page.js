@@ -16,7 +16,6 @@ const Page = () => {
   const [showModal, setShowModal] = useState(false);
   const [view, setView] = useState(null);
   const [expandedImg, setExpandedImg] = useState(null);
-console.log(reports)
   useEffect(() => {
     const fetchReport = async () => {
       try {
@@ -71,7 +70,7 @@ console.log(reports)
       ) : notFound ||filteredReports.length === 0? (
         <div className="text-center py-10">
           <h2 className="text-xl sm:text-2xl font-semibold text-gray-700">
-            No report found for this user.
+            No report found for this zone
           </h2>
           <p className="text-sm text-gray-500 mt-2">
             Please check again later or select a different zone.

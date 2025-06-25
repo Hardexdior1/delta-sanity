@@ -263,14 +263,7 @@ export default function AuthPage() {
             <ToastContainer />
 
       <div className="w-full max-w-md">
-        {/* <motion.h1
-          initial={{ y: -40 }}
-          animate={{ y: [0, -10, 0, -5, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
-          className="text-4xl font-extrabold text-center text-blue-800 mb-6 tracking-wide"
-        >
-          VerseOne Resort
-        </motion.h1> */}
+      
 
         <motion.div
           key={currentView} // Key for re-animating on view change
@@ -281,6 +274,9 @@ export default function AuthPage() {
           className="bg-white bg-opacity-95 backdrop-blur-xl shadow-2xl rounded-3xl p-8 space-y-6 border border-blue-100"
         >
           <div className="text-center">
+              <h1 className="text-xl  font-bold text-gray-800 mb-3  md:text-2xl">
+              Delta Sanity Report Hub
+            </h1>
             <h2 className="text-xl font-semibold text-gray-800">
               {title}
             </h2>

@@ -50,8 +50,8 @@ const {user,  handleLogout,loadingLogOut,showLogOut,setShowLogout}=useAuth()
   <p className="text-center text-white font-medium">
     Delta sanity welcomes you,{" "}
     <span className="font-semibold">
-      {user?.fullName?.charAt(0).toUpperCase()}
-      {user?.fullName?.slice(1).toLowerCase()}
+           {user?.fullName?.toUpperCase()}
+
     </span>
   </p>
 

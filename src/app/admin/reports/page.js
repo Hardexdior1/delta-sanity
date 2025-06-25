@@ -117,7 +117,7 @@ const handlePrintRequest = async (e) => {
       {showForm && (
         <>
           <p className="text-sm text-gray-600 mt-2 mb-4">
-            To request a printed version of reports, please select the date range below and submit your request. You will receive all reports pdf based on the selected date in your email.
+            To request a printed version of reports, please select the date range below and submit your request. You will receive all reports pdf based on the selected date.
           </p>
 
           <form

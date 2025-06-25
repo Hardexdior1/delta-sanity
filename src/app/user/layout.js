@@ -16,7 +16,7 @@ const pathname = usePathname();
 
 // const {user}=useAuth()
 const {user,  handleLogout,loadingLogOut,showLogOut,setShowLogout}=useAuth()
-
+console.log('omo',user)
     return (
      <main className='min-h-screen'>
       <ToastContainer />
@@ -54,7 +54,8 @@ const {user,  handleLogout,loadingLogOut,showLogOut,setShowLogout}=useAuth()
     <p className="text-white text-center text-base md:text-lg font-medium">
       Delta Sanity welcomes you,&nbsp;
       <span className="font-semibold capitalize">
-        {user?.firstName}
+      {user?.fullName?.toUpperCase()}
+      {/* {user?.fullName?.slice(1).toLowerCase()} */}
       </span>
     </p>
 
