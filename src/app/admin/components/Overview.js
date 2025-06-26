@@ -63,7 +63,7 @@ const Overview = () => {
 
   const overviewStats = [
     {
-      title: "Total Registered Commands",
+      title: "Total Registered Units",
       count: loading ? "calculating..." : users?.length,
       icon: <Users />,
     },
@@ -97,7 +97,7 @@ const Overview = () => {
 
       {/* Commands section */}
       <div className="bg-white p-6 rounded-lg shadow-md mb-8">
-        <h3 className="text-xl font-semibold text-blue-500">Commands</h3>
+        <h3 className="text-xl font-semibold text-blue-500">Units</h3>
         <div className="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {loading ? (
             Array.from({ length: 6 }).map((_, index) => (
@@ -108,7 +108,7 @@ const Overview = () => {
               </div>
             ))
           ) : filteredZones.length === 0 || error?.response?.status === 404 ? (
-            <p className="text-center col-span-full text-gray-500">No report found for this user.</p>
+            <p className="text-center col-span-full text-gray-500">No report found for this Unit.</p>
           ) : (
             allZones.map((zone, index) => (
               <div key={index} className="bg-white border border-black rounded-xl p-5 shadow-sm">
@@ -146,7 +146,7 @@ const Overview = () => {
             Prev
           </button>
           <h2 className="text-sm font-medium text-black">
-            Showing {total} of {filteredZones.length} commands
+            Showing {total} of {filteredZones.length} Units
           </h2>
           <button
             onClick={() => setCurrentPage(currentPage + 1)}

@@ -14,6 +14,7 @@ export default function CreateReport() {
     CrudeOil: "",
     ovenCount: "",
     tankCount: "",
+    irsCount:"",
     woodenBoatCount: "",
     arrestedSuspects: "",
     remark: "",
@@ -57,6 +58,7 @@ export default function CreateReport() {
     formData.append("CrudeOil", reportData.CrudeOil ? `${reportData.CrudeOil} litres` : "0")
     formData.append("ovenCount", reportData.ovenCount || "0")
     formData.append("tankCount", reportData.tankCount || "0")
+        formData.append("irsCount", reportData.irsCount || "0")
     formData.append("woodenBoatCount", reportData.woodenBoatCount || "0")
     formData.append("arrestedSuspects", reportData.arrestedSuspects || "0")
     formData.append("remark", reportData.remark || "")
@@ -90,6 +92,7 @@ export default function CreateReport() {
         lat: "",
         lng: "",
         place: "",
+        irsCount:""
       })
       setImages([])
       setImagePreviews([])
@@ -170,7 +173,7 @@ export default function CreateReport() {
         </div>
       ))}
 
-      {["ovenCount", "tankCount", "woodenBoatCount", "arrestedSuspects"].map((key) => (
+      {["ovenCount", "tankCount", "woodenBoatCount", "arrestedSuspects","irsCount"].map((key) => (
         <div key={key}>
           <label className="block mb-1 font-medium">{key.replace(/([A-Z])/g, " $1")}</label>
           <input

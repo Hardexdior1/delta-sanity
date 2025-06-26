@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import endpointroute from "@/app/utils/endpointroute";
 import { MdClose } from "react-icons/md";
+import { ToastContainer,toast } from "react-toastify";
 
 const Page = () => {
   const route = usePathname();
@@ -36,7 +37,34 @@ const Page = () => {
     fetchReport();
   }, [splittedRoute]);
 
-  const handlePrint = () => window.print();
+  const [sending,setSending]=useState(false)
+  const handleEachPrintRequest = async () => {
+  // e.preventDefault();
+
+  // if (!fromDate || !toDate) return;
+
+  setSending(true);
+
+  try {
+    const res = await endpointroute.get(
+      `reports/${view?._id}/export-pdf`,
+      { responseType: "blob" }
+    );
+
+    const pdfBlob = new Blob([res.data], { type: "application/pdf" });
+    const blobUrl = URL.createObjectURL(pdfBlob);
+
+    // Open the PDF in a new tab
+    window.open(blobUrl, "_blank");
+    // Message to user
+   toast.success( `✅ Report has been sent and opened. `)
+  } catch (error) {
+    console.log("Error fetching PDF:", error);
+    toast.error("❌ Failed to fetch PDF. Please try again.");
+  } finally {
+    setSending(false);
+  }
+};
   const itemsPerPage=6
     const [search, setSearch] = useState("");
   const filteredReports = reports.filter((report) =>
@@ -56,6 +84,7 @@ const Page = () => {
   return (
     <main className="p-4">
       <h1 className="text-xl font-bold text-black mb-4"> All Reports From {name } </h1>
+      <ToastContainer />
 <input
         type="text"
         placeholder="Search by place..."
@@ -70,10 +99,10 @@ const Page = () => {
       ) : notFound ||filteredReports.length === 0? (
         <div className="text-center py-10">
           <h2 className="text-xl sm:text-2xl font-semibold text-gray-700">
-            No report found for this zone
+            No report found for this units
           </h2>
           <p className="text-sm text-gray-500 mt-2">
-            Please check again later or select a different zone.
+            Please check again later or select a different unit.
           </p>
         </div>
       ) :   
@@ -133,10 +162,11 @@ const Page = () => {
               </h4>
               <div className="flex gap-4">
                 <button
-                  onClick={handlePrint}
+                disabled={sending}
+                  onClick={handleEachPrintRequest }
                   className="no-print px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 text-sm"
                 >
-                  Print
+                 {sending?"printing..":"print"}
                 </button>
                 <button onClick={() => setShowModal(false)}>
                   <MdClose size={24} className="no-print text-gray-600 hover:text-black" />

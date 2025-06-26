@@ -2,11 +2,10 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import Image from 'next/image'
-// import Link from 'next/link'
 import { MdClose } from "react-icons/md";
 import { useAuth } from '@/app/context/AuthContext';
-
+import { ToastContainer,toast } from "react-toastify";
+import endpointroute from '@/app/utils/endpointroute';
 const Bookings = ({ allBookings, isLoading, error }) => {
   const [showModal, setShowModal] = useState(false);
   const { user } = useAuth();
@@ -25,19 +24,49 @@ const Bookings = ({ allBookings, isLoading, error }) => {
     setCurrentPage(1);
   }, [searchTerm, allBookings]);
 
-  const handlePrint = () => window.print();
+  const [sending,setSending]=useState(false)
+  
+const handleEachPrintRequest = async () => {
+  // e.preventDefault();
 
+  // if (!fromDate || !toDate) return;
+
+  setSending(true);
+
+  try {
+    const res = await endpointroute.get(
+      `reports/${book?._id}/export-pdf`,
+      { responseType: "blob" }
+    );
+
+    const pdfBlob = new Blob([res.data], { type: "application/pdf" });
+    const blobUrl = URL.createObjectURL(pdfBlob);
+
+    // Open the PDF in a new tab
+    window.open(blobUrl, "_blank");
+    // Message to user
+       toast.success( `✅ Report has been sent and opened. `)
+
+  } catch (error) {
+   console.log("Error fetching PDF:", error);
+    toast.error("❌ Failed to fetch PDF. Please try again.");
+  } finally {
+    setSending(false);
+  }
+};
 
   const startIndex = (currentPage - 1) * reportsPerPage;
   const endIndex = startIndex + reportsPerPage;
   const paginatedReports = filteredBookings?.slice(startIndex, endIndex);
   const totalReports = filteredBookings?.length || 0;
   const totalPages = Math.ceil(totalReports / reportsPerPage);
-
+console.log(paginatedReports)
   return (
     <div className="bg-white shadow-lg rounded-lg lg:p-4">
       <div className="mb-4 flex justify-between items-center">
         <h2 className="text-lg font-semibold text-blue-600">Your Reports</h2>
+                    <ToastContainer />
+        
         <input
           type="text"
           placeholder="Search by place..."
@@ -54,7 +83,7 @@ const Bookings = ({ allBookings, isLoading, error }) => {
             <div className="flex justify-between items-center">
               <h4 className="text-blue-600 font-bold text-lg">Submitted by {user?.fullName}</h4>
               <div className="flex gap-4">
-                <button onClick={handlePrint} className="no-print px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 text-sm">Print</button>
+                <button disabled={sending} onClick={handleEachPrintRequest} className="no-print px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 text-sm"> {sending?"printing..":"Print"} </button>
                 <button onClick={() => setShowModal(false)}><MdClose size={24} className="no-print text-gray-600 hover:text-black" /></button>
               </div>
             </div>
@@ -139,12 +168,34 @@ const Bookings = ({ allBookings, isLoading, error }) => {
           <div className="text-sm text-gray-700 mb-3">Showing {Math.min(endIndex, totalReports)} of {totalReports} reports</div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {paginatedReports.map((booking) => (
+              
               <div key={booking._id} className="bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-                {booking?.images?.[0] ? (
-                  <Image src={booking.images[0]} alt="report image" width={600} height={400} className="w-full h-48 object-cover" />
-                ) : (
-                  <Image src="https://images.unsplash.com/photo-1570129477492-45c003edd2be" alt="No images attached" width={600} height={400} className="w-full h-48 object-cover" />
-                )}
+                <>
+ <> 
+ {/* {booking.images && booking.images.length > 0 ? (
+                  
+                   ) : (
+                     <p className="text-gray-500 text-sm h-40 w-full">No image attached</p>
+                  )} */}
+                  {booking.images && booking.images.length > 0 ? (
+                    <div className="">
+                      {booking.images.slice(0,1).map((img) => (
+                        <div key={img} className="relative cursor-pointer" >
+                          <img src={img} alt="Report Image" className="rounded max-h-[300px] w-full z-0" />
+                        </div>
+                    //        <div className="flex gap-4 flex-wrap">
+                    //                                      <Image src={booking.images[0]} alt="report image" width={600} height={400} className="w-full h-48 object-cover" />
+
+                    //  </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-gray-500 text-sm">No image attached</p>
+                  )}
+                  
+                   </>
+</>
+
                 <div className="p-4">
                   <h2 className="text-lg font-bold text-black mb-1 capitalize">{booking.place || 'N/A'}</h2>
                   <p className="text-sm text-gray-600 mb-2">Submitted:   {new Date(booking.createdAt).toLocaleDateString("en-US", {

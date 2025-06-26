@@ -6,6 +6,7 @@ import endpointroute from "@/app/utils/endpointroute";
 import { MdClose } from "react-icons/md";
 import { format } from "date-fns"; 
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+import { ToastContainer,toast } from "react-toastify";
 
 const Page = () => {
 
@@ -42,7 +43,6 @@ console.log(reports)
     fetchReport();
   }, []);
 
-  const handlePrint = () => window.print();
   const itemsPerPage=6
     
       const [currentPage,setCurrentPage]=useState(1)
@@ -97,10 +97,40 @@ const handlePrintRequest = async (e) => {
     setSending(false);
   }
 };
+
+const handleEachPrintRequest = async () => {
+  // e.preventDefault();
+
+  // if (!fromDate || !toDate) return;
+
+  setSending(true);
+
+  try {
+    const res = await endpointroute.get(
+      `reports/${view?._id}/export-pdf`,
+      { responseType: "blob" }
+    );
+
+    const pdfBlob = new Blob([res.data], { type: "application/pdf" });
+    const blobUrl = URL.createObjectURL(pdfBlob);
+
+    // Open the PDF in a new tab
+    window.open(blobUrl, "_blank");
+    // Message to user
+       toast.success( `✅ Report has been sent and opened. `)
+
+  } catch (error) {
+   console.log("Error fetching PDF:", error);
+    toast.error("❌ Failed to fetch PDF. Please try again.");
+  } finally {
+    setSending(false);
+  }
+};
   return (
     <main className="p-4">
       <h1 className="text-xl font-bold text-black mb-4"> All Reports Submitted </h1>
-     
+            <ToastContainer />
+
 <section className="bg-white border border-gray-300 rounded-lg p-5 mb-6">
       <div
         className="flex items-center justify-between cursor-pointer"
@@ -262,10 +292,11 @@ const handlePrintRequest = async (e) => {
               </h4>
               <div className="flex gap-4">
                 <button
-                  onClick={handlePrint}
+                                disabled={sending}
+                  onClick={handleEachPrintRequest}
                   className="no-print px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 text-sm"
                 >
-                  Print
+                  {sending?"printing":"Print"}
                 </button>
                 <button onClick={() => setShowModal(false)}>
                   <MdClose size={24} className="no-print text-gray-600 hover:text-black" />

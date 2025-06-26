@@ -88,7 +88,7 @@ const {user,  handleLogout,loadingLogOut,showLogOut,setShowLogout}=useAuth()
 >
   {/* valar morghulis */}
   <div className="p-4 flex items-center justify-between border-b border-white/20 h-16">
-    {!isCollapsed &&<Link href={`/admin`}> <h1 className="text-xl font-bold" onClick={() => setMobileOpen(!mobileOpen)} >Verse One </h1></Link>}
+    {!isCollapsed &&<Link href={`/admin`}> <h1 className="text-xl font-bold" onClick={() => setMobileOpen(!mobileOpen)} >Delta sanity report hub</h1></Link>}
     <button
       onClick={() => setIsCollapsed(!isCollapsed)}
       className="p-2 rounded-full hover:bg-white/10 hidden md:block"

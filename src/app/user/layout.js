@@ -43,7 +43,7 @@ console.log('omo',user)
       </div>
     </div>}
 
-  <div className="w-full px-4 py-3 bg-black fixed left-0 right-0 top-0">
+  <div className="w-full px-4 py-3 bg-black fixed left-0 right-0 top-0 z-20">
   <div className="grid grid-cols-1 md:grid-cols-3 items-center gap-4">
     {/* Left: Patient Portal */}
     <h3 className="text-white text-lg font-semibold text-center md:text-left">

@@ -28,12 +28,12 @@ const CreateZoneForm = () => {
         email,
       });
 console.log(res)
-      setSuccessMsg('✅ Zone created successfully!');
+      setSuccessMsg('✅ Unit created successfully!');
       setFullName('');
       setEmail('');
     } catch (err) {
       console.error(err);
-      setError('❌ Failed to create zone. Please try again.');
+      setError('❌ Failed to create Unit. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -41,11 +41,11 @@ console.log(res)
 
   return (
     <section className="bg-white border border-gray-300 rounded-lg p-6 max-w-md mx-auto mt-6">
-      <h2 className="text-lg font-semibold text-black mb-4">Create a Zone</h2>
+      <h2 className="text-lg font-semibold text-black mb-4">Create a Unit</h2>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium mb-1 text-gray-700">Zone Name</label>
+          <label className="block text-sm font-medium mb-1 text-gray-700">Unit Name</label>
           <input
             type="text"
             value={fullName}
