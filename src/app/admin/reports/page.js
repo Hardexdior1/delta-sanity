@@ -57,15 +57,20 @@ console.log(reports)
       const total=Math.min(lastIndex, filteredReports.length)
 
     //   request for a printed report
+    const [reportType, setReportType] = useState("full"); 
     const [fromDate, setFromDate] = useState("");
 const [toDate, setToDate] = useState("");
 const [sending, setSending] = useState(false);
 const [responseMsg, setResponseMsg] = useState("");
   const [showForm, setShowForm] = useState(false);
 
+const summary =`admin/unit-summary?startDate=${fromDate}&endDate=${toDate}`
+const full=`reports/export-pdf?start=${fromDate}&end=${toDate}`
+ 
 
-const handlePrintRequest = async (e) => {
-  e.preventDefault();
+
+const handlePrintRequest = async (api) => {
+  // e.preventDefault();
 
   if (!fromDate || !toDate) return;
 
@@ -74,7 +79,8 @@ const handlePrintRequest = async (e) => {
 
   try {
     const res = await endpointroute.get(
-      `reports/export-pdf?start=${fromDate}&end=${toDate}`,
+      api,
+      // `reports/export-pdf?start=${fromDate}&end=${toDate}`,
       { responseType: "blob" }
     );
 
@@ -91,7 +97,7 @@ const handlePrintRequest = async (e) => {
       )} to ${format(new Date(toDate), "MMMM d, yyyy")} has been sent and opened.`
     );
   } catch (error) {
-    console.error("Error fetching PDF:", error);
+    console.log("Error fetching PDF:", error);
     setResponseMsg("❌ Failed to fetch PDF. Please try again.");
   } finally {
     setSending(false);
@@ -137,6 +143,12 @@ const handleEachPrintRequest = async () => {
         onClick={() => setShowForm(!showForm)}
       >
         <h2 className="text-lg font-semibold text-base text-black">Request a Printed Report</h2>
+               {/* <div className="flex flex-col gap-2">
+                 <button className="text-lg font-semibold text-base text-black">Request full report</button>
+                <button className="text-lg font-semibold text-base text-black">Request report summary </button>
+
+               </div> */}
+
         {showForm ? (
           <FaChevronUp className="text-gray-600" />
         ) : (
@@ -151,8 +163,11 @@ const handleEachPrintRequest = async () => {
           </p>
 
           <form
-            onSubmit={handlePrintRequest}
-            className="space-y-4 md:flex md:items-end md:space-x-4 md:space-y-0"
+            // onSubmit={}
+            onSubmit={((e)=>{
+              e.preventDefault()
+            })}
+            className="space-y-4 md:flex md:items-center md:space-x-4 md:space-y-0"
           >
             <div className="flex flex-col">
               <label htmlFor="fromDate" className="text-sm font-medium text-gray-700 mb-1">From</label>
@@ -188,13 +203,45 @@ const handleEachPrintRequest = async () => {
               )}
             </div>
 
-            <button
+            {/* <button
               type="submit"
               disabled={sending}
               className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm disabled:opacity-50"
             >
               {sending ? "Sending..." : "Submit Request"}
-            </button>
+            </button> */}
+            <div className="flex flex-col items-center gap-2 mb-4 md:flex-row">
+  <button
+    onClick={() => {
+      setReportType("full")
+     handlePrintRequest(full)
+    }}
+     type="submit"
+              disabled={sending}
+                            className="bg-blue-600 text-sm hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm disabled:opacity-50"
+
+  >
+    
+                  {sending &&reportType=="full"? "printing..." : "print full report"}
+
+  </button>
+  <button
+   type="submit"
+              disabled={sending}
+     onClick={() => {
+           setReportType("summary")
+
+     handlePrintRequest(summary)
+    }}
+                                className="bg-black text-sm hover:bg-black/50-700 text-white px-4 py-2 rounded-md text-sm disabled:opacity-50"
+
+  >
+    
+                      {sending &&reportType=="summary"? "printing..." : "print report Summary"}
+
+  </button>
+</div>
+
           </form>
 
           {responseMsg && (
@@ -296,7 +343,7 @@ const handleEachPrintRequest = async () => {
                   onClick={handleEachPrintRequest}
                   className="no-print px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 text-sm"
                 >
-                  {sending?"printing":"Print"}
+                  {sending?"printing...":"Print"}
                 </button>
                 <button onClick={() => setShowModal(false)}>
                   <MdClose size={24} className="no-print text-gray-600 hover:text-black" />
@@ -326,6 +373,27 @@ const handleEachPrintRequest = async () => {
                     className="w-full p-1.5 text-sm bg-gray-100 border border-transparent rounded-md text-gray-700"
                   />
                 </div>
+                <div>
+                  <label className="block font-medium mb-1">lontitude</label>
+                  <input
+                    type="text"
+                    value={view.lng}
+                    disabled
+                    className="w-full p-1.5 text-sm bg-gray-100 border border-transparent rounded-md text-gray-700"
+                  />
+                 
+                </div>
+                 <div>
+                  <label className="block font-medium mb-1">latitude</label>
+                  <input
+                    type="text"
+                    value={view.lat}
+                    disabled
+                    className="w-full p-1.5 text-sm bg-gray-100 border border-transparent rounded-md text-gray-700"
+                  />
+                 
+                </div>
+
 
                 {["AGO", "PMS", "DPK", "CrudeOil", "arrestedSuspects", "irsCount", "ovenCount", "tankCount", "woodenBoatCount"].map((field) => (
                   <div key={field}>

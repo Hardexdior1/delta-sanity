@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { ToastContainer } from "react-toastify"
 import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
+import Image from 'next/image';
 const FiEye = ({ size }) => <span style={{ fontSize: size }}>👁️</span>;
 const FiEyeOff = ({ size }) => <span style={{ fontSize: size }}>🙈</span>;
 
@@ -259,37 +260,73 @@ export default function AuthPage() {
   const { title, subtitle } = getWelcomeMessage();
 
   return (
-    <div className="min-h-screen py-20 bg-gradient-to-br from-blue-50 via-indigo-50 to-slate-50 flex items-center justify-center px-4">
-            <ToastContainer />
+//     <div className="min-h-screen py-20 bg-gradient-to-br from-blue-50 via-indigo-50 to-slate-50 flex items-center justify-center px-4">
+//             <ToastContainer />
 
-      <div className="w-full max-w-md">
+//       <div className="w-full max-w-md flex flex-col items-center justify-center">
       
-
-        <motion.div
-          key={currentView} // Key for re-animating on view change
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          transition={{ duration: 0.3, ease: 'easeOut' }}
-          className="bg-white bg-opacity-95 backdrop-blur-xl shadow-2xl rounded-3xl p-8 space-y-6 border border-blue-100"
-        >
-          <div className="text-center">
-              <h1 className="text-xl  font-bold text-gray-800 mb-3  md:text-2xl">
-              Delta Sanity Report Hub
-            </h1>
-            <h2 className="text-xl font-semibold text-gray-800">
-              {title}
-            </h2>
-            <p className="text-sm text-gray-500">
-              {subtitle}
-            </p>
+// <Image src="/navy.jpg" alt="navy-logo" width={100} height={100} />
+//         <motion.div
+//           key={currentView} // Key for re-animating on view change
+//           initial={{ opacity: 0, y: 20 }}
+//           animate={{ opacity: 1, y: 0 }}
+//           exit={{ opacity: 0, y: -20 }}
+//           transition={{ duration: 0.3, ease: 'easeOut' }}
+//           className="bg-white bg-opacity-95 backdrop-blur-xl shadow-2xl rounded-3xl p-8 space-y-6 border border-blue-100"
+//         >
+//           <div className="text-center">
+//               <h1 className="text-xl  font-bold text-gray-800 mb-3  md:text-2xl">
+//               Delta Sanity Report Hub
+//             </h1>
+//             <h2 className="text-xl font-semibold text-gray-800">
+//               {title}
+//             </h2>
+//             <p className="text-sm text-gray-500">
+//               {subtitle}
+//             </p>
            
-          </div>
+//           </div>
 
-          {renderForm()}
+//           {renderForm()}
+//         </motion.div>
+
+//       </div>
+//     </div>
+
+
+<div className="min-h-screen py-20 bg-gradient-to-br from-blue-50 via-indigo-50 to-slate-50 flex items-center justify-center px-4 relative overflow-hidden">
+    {/* Background watermark image */}
+    <div
+        className="absolute inset-0 bg-no-repeat bg-center object-cover bg-contain opacity-10" // Adjust opacity as needed
+        style={{ backgroundImage: 'url(/navy.jpg)' }}
+    ></div>
+
+    <ToastContainer />
+
+    <div className="w-full max-w-md flex flex-col items-center justify-center relative z-10">
+        <Image src="/navy.jpg" alt="navy-logo" width={100} height={100} />
+        <motion.div
+            key={currentView} // Key for re-animating on view change
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
+            className="bg-white bg-opacity-95 backdrop-blur-xl shadow-2xl rounded-3xl p-8 space-y-6 border border-blue-100"
+        >
+            <div className="text-center">
+                <h1 className="text-xl font-bold text-gray-800 mb-3 md:text-2xl">
+                    Delta Sanity Report Hub
+                </h1>
+                <h2 className="text-xl font-semibold text-gray-800">
+                    {title}
+                </h2>
+                <p className="text-sm text-gray-500">
+                    {subtitle}
+                </p>
+            </div>
+            {renderForm()}
         </motion.div>
-
-      </div>
     </div>
+</div>
   );
 }
